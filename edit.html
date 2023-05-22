@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Edit Data Pegawai</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<div class="nav">
+		<h5>Aplikasi Manajemen Pegawai</h5>
+	</div>
+	<div class="menu">
+		<ul>
+			<a href="index.html"><li>Dashboard</li></a>
+			<a href="datapegawai.html"><li>Data Pegawai</li></a>
+			<a href="#"><li>Data Jabatan</li></a>
+			<a href="#"><li>Keluar</li></a>
+		</ul>
+	</div>
+	<div class="Datapegawai">
+		<h1>Edit Data Pegawai</h1>
+	</div>
+	<div class="line"></div>
+
+	<div id="formEditData" class="input">
+		<form>
+			<input type="text" id="inputNo" placeholder="Nomor">
+			<input type="text" id="inputFoto" placeholder="Foto">
+			<input type="text" id="inputNama" placeholder="Nama Lengkap">
+			<input type="text" id="inputJenisKelamin" placeholder="Jenis Kelamin">
+			<input type="text" id="inputTanggalLahir" placeholder="Tanggal Lahir">
+			<input type="text" id="inputJabatan" placeholder="Jabatan">
+			<input type="text" id="inputKeterangan" placeholder="Keterangan">
+			<button type="submit">Simpan</button>
+		</form>
+	</div>
+
+	<script>
+		// Ambil indeks data pegawai dari parameter URL
+		var urlParams = new URLSearchParams(window.location.search);
+		var index = urlParams.get("index");
+
+		// Ambil data pegawai dari local storage
+		var dataPegawai = JSON.parse(localStorage.getItem("dataPegawai")) || [];
+
+		// Isi form dengan data pegawai yang akan diedit
+		document.getElementById("inputNo").value = dataPegawai[index].no;
+		document.getElementById("inputFoto").value = dataPegawai[index].foto;
+		document.getElementById("inputNama").value = dataPegawai[index].nama;
+		document.getElementById("inputJenisKelamin").value = dataPegawai[index].jenisKelamin;
+		document.getElementById("inputTanggalLahir").value = dataPegawai[index].tanggalLahir;
+		document.getElementById("inputJabatan").value = dataPegawai[index].jabatan;
+		document.getElementById("inputKeterangan").value = dataPegawai[index].keterangan;
+
+		// Tambahkan event listener untuk form submit
+		document.getElementById("formEditData").addEventListener("submit", function(event) {
+			event.preventDefault(); // Mencegah form dikirim secara default
+
+			// Ambil nilai input dari form
+			var no = document.getElementById("inputNo").value;
+			var foto = document.getElementById("inputFoto").value;
+			var nama = document.getElementById("inputNama").value;
+			var jenisKelamin = document.getElementById("inputJenisKelamin").value;
+			var tanggalLahir = document.getElementById("inputTanggalLahir").value;
+			var jabatan = document.getElementById("inputJabatan").value;
+			var keterangan = document.getElementById("inputKeterangan").value;
+
+			// Update data pegawai yang diedit
+			dataPegawai[index] = {
+				no: no,
+				foto: foto,
+				nama: nama,
+				jenisKelamin: jenisKelamin,
+				tanggalLahir: tanggalLahir,
+				jabatan: jabatan,
+				keterangan: keterangan
+			};
+
+			// Simpan data pegawai ke local storage
+			localStorage.setItem("dataPegawai", JSON.stringify(dataPegawai));
+
+			// Redirect kembali ke halaman data pegawai
+			window.location.href = "datapegawai.html";
+		});
+	</script>
+</body>
+</html>

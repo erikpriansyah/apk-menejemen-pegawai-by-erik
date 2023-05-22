@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Data Pegawai</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<div class="nav">
+		<h5>Aplikasi Manajemen Pegawai</h5>
+	</div>
+	<div class="menu">
+		<ul>
+			<a href="index.html"><li>Dashboard</li></a>
+			<a href="datapegawai.html"><li>Data Pegawai</li></a>
+			<a href="#"><li>Data Jabatan</li></a>
+			<a href="#"><li>Keluar</li></a>
+		</ul>
+	</div>
+	<div class="Datapegawai">
+		<h1>Data Pegawai</h1>
+	</div>
+	<div class="line"></div>
+	<div class="tambah">
+		<a href="tambah.html"><button id="tambah">Tambah</button></a>
+	</div>
+	<table id="myTable">
+		<tr>
+			<th>No</th>
+			<th>Foto</th>
+			<th>Nama Lengkap</th>
+			<th>Jenis Kelamin</th>
+			<th>Tanggal Lahir</th>
+			<th>Jabatan</th>
+			<th>Keterangan</th>
+			<th>Aksi</th>
+		</tr>
+	</table>
+
+	<script>
+		// Ambil data pegawai dari local storage
+		var dataPegawai = JSON.parse(localStorage.getItem("dataPegawai")) || [];
+
+		// Tampilkan data pegawai ke dalam tabel
+		var table = document.getElementById("myTable");
+		for (var i = 0; i < dataPegawai.length; i++) {
+			var row = table.insertRow(i + 1);
+			var cellNo = row.insertCell(0);
+			var cellFoto = row.insertCell(1);
+			var cellNama = row.insertCell(2);
+			var cellJenisKelamin = row.insertCell(3);
+			var cellTanggalLahir = row.insertCell(4);
+			var cellJabatan = row.insertCell(5);
+			var cellKeterangan = row.insertCell(6);
+			var cellAksi = row.insertCell(7);
+
+			cellNo.innerHTML = dataPegawai[i].no;
+			cellFoto.innerHTML = "<img src='" + dataPegawai[i].foto + "' alt='Foto Pegawai'>";
+			cellNama.innerHTML = dataPegawai[i].nama;
+			cellJenisKelamin.innerHTML = dataPegawai[i].jenisKelamin;
+			cellTanggalLahir.innerHTML = dataPegawai[i].tanggalLahir;
+			cellJabatan.innerHTML = dataPegawai[i].jabatan;
+			cellKeterangan.innerHTML = dataPegawai[i].keterangan;
+			cellAksi.innerHTML = "<button onclick='editData(" + i + ")'>Edit</button> <button onclick='hapusData(" + i + ")'>Hapus</button>";
+		}
+
+		function hapusData(index) {
+			// Konfirmasi penghapusan data
+			if (confirm("Apakah Anda yakin ingin menghapus data ini?")) {
+				// Hapus data pegawai dari array
+				dataPegawai.splice(index, 1);
+
+				// Simpan data pegawai ke local storage
+				localStorage.setItem("dataPegawai", JSON.stringify(dataPegawai));
+
+				// Muat ulang halaman untuk menampilkan perubahan
+				location.reload();
+			}
+		}
+
+		function editData(index) {
+			// Implementasikan logika pengeditan data pegawai sesuai kebutuhan
+			// ...
+
+			// Contoh: Redirect ke halaman edit dengan menyimpan index sebagai parameter
+			window.location.href = "edit.html?index=" + index;
+		}
+		// ...
+cellFoto.innerHTML = "<img src='" + dataPegawai[i].foto + "' alt='Foto Pegawai'>";
+// ...
+
+	</script>
+</body>
+</html>

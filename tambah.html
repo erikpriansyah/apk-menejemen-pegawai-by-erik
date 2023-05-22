@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Tambah Data Pegawai</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<div class="nav">
+		<h5>Aplikasi Manajemen Pegawai</h5>
+	</div>
+	<div class="menu">
+		<ul>
+			<a href="index.html"><li>Dashboard</li></a>
+			<a href="datapegawai.html"><li>Data Pegawai</li></a>
+			<a href="#"><li>Data Jabatan</li></a>
+			<a href="#"><li>Keluar</li></a>
+		</ul>
+	</div>
+	<div class="Datapegawai">
+		<h1>Tambah Data Pegawai</h1>
+	</div>
+	<div class="line"></div>
+	<div class="input">
+		<form id="formTambahData">
+			<input type="text" id="inputNo" placeholder="Nomor" pattern="[0-9]+" required>
+			<input type="file" id="inputFoto" accept="image/*">
+			<input type="text" id="inputNama" placeholder="Nama Lengkap">
+			<input type="text" id="inputJenisKelamin" placeholder="Jenis Kelamin">
+			<input type="date" id="inputTanggalLahir" placeholder="Tanggal Lahir">
+			<input type="text" id="inputJabatan" placeholder="Jabatan">
+			<input type="text" id="inputKeterangan" placeholder="Keterangan">
+			<button type="submit">Tambah Data</button>
+		</form>
+	</div>
+
+	<script>
+		document.getElementById("formTambahData").addEventListener("submit", function(event) {
+	event.preventDefault(); // Mencegah form dikirim secara default
+
+	var no = document.getElementById("inputNo").value;
+	var fotoInput = document.getElementById("inputFoto");
+	var nama = document.getElementById("inputNama").value;
+	var jenisKelamin = document.getElementById("inputJenisKelamin").value;
+	var tanggalLahir = document.getElementById("inputTanggalLahir").value;
+	var jabatan = document.getElementById("inputJabatan").value;
+	var keterangan = document.getElementById("inputKeterangan").value;
+
+	// Cek apakah pengguna telah memilih gambar
+	if (fotoInput.files && fotoInput.files[0]) {
+		var reader = new FileReader();
+
+		reader.onload = function(e) {
+			var foto = e.target.result; // URL gambar yang dapat ditampilkan
+
+			// Buat objek data pegawai baru
+			var dataPegawai = {
+				no: no,
+				foto: foto,
+				nama: nama,
+				jenisKelamin: jenisKelamin,
+				tanggalLahir: tanggalLahir,
+				jabatan: jabatan,
+				keterangan: keterangan
+			};
+
+			// Ambil data pegawai dari local storage
+			var existingDataPegawai = JSON.parse(localStorage.getItem("dataPegawai")) || [];
+
+			// Tambahkan data pegawai baru ke dalam array existingDataPegawai
+			existingDataPegawai.push(dataPegawai);
+
+			// Simpan kembali data pegawai ke local storage
+			localStorage.setItem("dataPegawai", JSON.stringify(existingDataPegawai));
+
+			// Reset form setelah data ditambahkan
+			document.getElementById("formTambahData").reset();
+
+			// Redirect ke halaman Data Pegawai
+			window.location.href = "datapegawai.html";
+		};
+
+		reader.readAsDataURL(fotoInput.files[0]); // Membaca gambar sebagai URL data
+	} else {
+		// Jika pengguna tidak memilih gambar, lanjutkan dengan data pegawai tanpa foto
+		var dataPegawai = {
+			no: no,
+			foto: "", // Kosongkan foto jika tidak ada yang dipilih
+			nama: nama,
+			jenisKelamin: jenisKelamin,
+			tanggalLahir: tanggalLahir,
+			jabatan: jabatan,
+			keterangan: keterangan
+		};
+
+		// Ambil data pegawai dari local storage
+		var existingDataPegawai = JSON.parse(localStorage.getItem("dataPegawai")) || [];
+
+		// Tambahkan data pegawai baru ke dalam array existingDataPegawai
+		existingDataPegawai.push(dataPegawai);
+
+		// Simpan kembali data pegawai ke local storage
+		localStorage.setItem("dataPegawai", JSON.stringify(existingDataPegawai));
+
+		// Reset form setelah data ditambahkan
+		document.getElementById("formTambahData").reset();
+
+		// Redirect ke halaman Data Pegawai
+		window.location.href = "datapegawai.html";
+	}
+});
+</script>
+</body>
+</html>
